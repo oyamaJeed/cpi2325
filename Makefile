@@ -1,42 +1,25 @@
-# TARGET NAME
-TARGET := ex02
+NAME :=libdlink.so 
+SRCS := display.c
+OBJS := $(SRCS:.c=.o)
 
-# OBJECT FILES
-OBJS :=ex02.o
 
-# SOURCE FILES
-SRCS := $(OBJS:%.o=%.c)
+CFLAGS := -shared
+LFLAGS := -lm -pthread
+CC := gcc 
 
-# COMPILER TYPE
-CC :=gcc
 
-# COMPILER OPTION
-CFLAGS := -g -Wall -Wextra -DDEBUG=1
 
-# DYNAMIC LIBRARY
-# LDFLAGS := -lpthread
 
-# MAKE ALL (PHONY TARGET)
-.PHONY: all
-all: $(TARGET)
+$(NAME) : $(OBJS)
+	$(CC) $(CFLAGS) $(LFLAGS) -o $(NAME) $(OBJS)
 
-# LINK OBJECTS
-$(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) -o $@ $(OBJS) $(LDFLAGS)
+all: $(NAME)
 
-# COMPILE SOURCES
-./%o: ./%c
-	$(CC) $(CFLAGS) -c $<
+.c.o:
+	$(CC) -c $< -o $@
 
-# UPDATE HEADER FILE
-#$(OBJS): *.h
-
-# CLEAN FILES (PHONY TARGET)
-.PHONY: clean
 clean:
-	rm -f *.o *~ $(TARGET)
-
-
+	rm -f $(OBJS) $(NAME)
 
 
 
